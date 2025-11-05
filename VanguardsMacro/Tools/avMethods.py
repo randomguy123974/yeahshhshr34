@@ -24,8 +24,11 @@ import pytesseract
 #Extra
 from typing import Literal
 
-window_size = (1100,800)
-window_pos = (200,100)
+#values
+from globalValues import global_values
+window_size = (global_values.window_x, global_values.window_y)
+window_pos = (global_values.dx, global_values.dy)
+
 
 def PrideBurn() -> None:
     '''
@@ -155,7 +158,7 @@ def go_to_upg(Upgrade: int, Delay: int | None=None) -> bool:
 
 def random_place(UnitIndex: int, NumPlacement: int) -> list:
     UnitPositions = []
-    Mouse = [546, 422]
+    Mouse = [(global_values.dx+global_values.window_x)//2, (global_values.dy+global_values.window_y)//2]
     Placed = 0
     while Placed < NumPlacement:
 
@@ -224,6 +227,7 @@ def abs_place(UnitIndex: int, NumPlacement: int, Positions: tuple[tuple[int, int
             time.sleep(0.5)
             bt.click(x,y)
             time.sleep(1.5)
+
 def restart_match():
     '''sybau'''
     #(227, 868), (1150, 454), (681, 565), (726, 570), (1212, 264)
@@ -237,3 +241,27 @@ def restart_match():
     time.sleep(1)
     bt.click(1212, 264, abs=True)
     time.sleep(1)
+
+def choose_card() -> str:
+    if True:
+        card_priority = {
+            "Champions": "Champions.png",
+            "Quake": "Quake.png",
+            "Immunity":"immunity.png",
+            "Revitalize": "Revitalize.png",
+            "Thrice": "Thrice.png"
+        }
+        found = False
+        for i,e in enumerate(card_priority):
+            # i is index, e is Element
+            print(f"{i} | {e}")
+            check = bt.does_exist(card_priority.get(e), 0.8, False)
+            print(check)
+            if check:
+                print(f"found {e}")
+                found = True
+                bt.click_image(card_priority.get(e), 0.8, False)
+                return e
+        if not found:
+            return "Error: No card found"
+    

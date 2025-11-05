@@ -75,3 +75,33 @@ def go_to(Area: str) -> None:
         keyboard.press_and_release('e')
         time.sleep(3)
         keyboard.press_and_release('q')
+
+
+def choose_card():
+    if True:
+        card_priority = {
+            "Champions": "Champions.png",
+            "Quake": "Quake.png",
+            "Immunity":"immunity.png",
+            "Revitalize": "Revitalize.png",
+            "Thrice": "Thrice.png"
+        }
+        found = False
+        for i,e in enumerate(card_priority):
+            # i is index, e is Element
+            print(f"{i} | {e}")
+            check = bt.does_exist(card_priority.get(e), 0.8, False)
+            print(check)
+            if check:
+                print(f"found {e}")
+                found = True
+                bt.click_image(card_priority.get(e), 0.8, False)
+                break
+        if not found:
+            pass
+    
+def path_to_spawn():
+    pos = bt.does_exist("test_spawn.png",0.8,True,region=(200,100,1300,900), ret_pos=True)
+   
+    if pos is not None:
+        bt.click(pos.x,pos.y,right=True)
